@@ -252,6 +252,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/25/HyperLedger Fabric 开发实战（1）-- 环境准备以及安装Docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="程书芝">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程书芝的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/25/HyperLedger Fabric 开发实战（1）-- 环境准备以及安装Docker/" itemprop="url">HyperLedger Fabric 开发实战（1）-- 环境准备以及安装Docker</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-25T10:03:08+08:00">
+                2020-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Fabric开发首先需要准备Docker环境和Go语言环境。Farbic节点在Docker容器中运行。Fabric的许多节点和插件都是使用Go语言开发的。这一篇主要介绍环境准备以及暗转Docker，Go语言的安装不再介绍。以下开发过程均是基于MacOS 10.14.5操作系统。</p>
+<h3 id="1-安装Docker"><a href="#1-安装Docker" class="headerlink" title="1. 安装Docker"></a>1. 安装Docker</h3><p>Docker是一个开源的应用容器引擎。官网docker.com</p>
+<h4 id="1-查看内核版本。"><a href="#1-查看内核版本。" class="headerlink" title="1. 查看内核版本。"></a>1. 查看内核版本。</h4><p>Docker对Linux内核版本要求比较高。在使用之前，需要先升级内核版本并更新本地依赖。</p>
+<p>以下是百度百科对内核版本的定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">内核版本指的是，相应软件内核在历次修改或增加相应的功能后的版本编号。而内核主要是指操作系统或者相应软件中最核心的功能框架部分，它是实现该软件所有功能的基础。</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，MacOS和Linux的内核虽然有着相似的命令，但是有着截然不通的历史和特征。macOS内核被官方称为XNU，“XNU is not Unix”。两者的区别参考知乎的一个专栏。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://zhuanlan.zhihu.com/p/40187660</span><br></pre></td></tr></table></figure>
+<p>通过以下两个命令可以查看内核版本号。</p>
+<p>uname  用于显示系统信息，-a即-all，显示所有系统信息，包含内核版本号。-r显示发布版本号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">☁  ~  uname -a</span><br><span class="line">Darwin localhost 18.6.0 Darwin Kernel Version 18.6.0: Thu Apr 25 23:16:27 PDT 2019; root:xnu-4903.261.4~2/RELEASE_X86_64 x86_64</span><br><span class="line">☁  ~  uname -r</span><br><span class="line">18.6.0</span><br></pre></td></tr></table></figure>
+<h4 id="2-更新本地依赖包。"><a href="#2-更新本地依赖包。" class="headerlink" title="2. 更新本地依赖包。"></a>2. 更新本地依赖包。</h4><p>brew 是macOS的一个软件包管理工具，类似于centos下的yum或者ubuntu下的apt-get。可以通过brew升级内核版本和安装Docker。首先介绍一下brew的使用。</p>
+<p>使用brew安装软件，install。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew cask install AppName</span><br><span class="line">brew install AppName</span><br></pre></td></tr></table></figure>
+<p>使用brew删除软件，zap和remove都可以。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew cask zap AppName</span><br><span class="line">brew zap AppName</span><br><span class="line">brew cask remove AppName</span><br><span class="line">brew remove AppName</span><br></pre></td></tr></table></figure>
+<p>使用brew搜索软件，search。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew search SearchContent</span><br><span class="line">brew cask search SearchContent</span><br></pre></td></tr></table></figure>
+<p>使用brew升级软件，update和upgrade。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew update &amp;&amp; brew upgrade</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，带有cask这个指令安装的程序时带有图形化界面的。从物理层面上有图形化界面和没有图像化界面的存储的位置是不同的。</p>
+<p>通过以上的介绍，可以知道，执行了brew update就更新了本地依赖包。</p>
+<h4 id="3-安装Docker"><a href="#3-安装Docker" class="headerlink" title="3. 安装Docker"></a>3. 安装Docker</h4><p>方法一： 使用Homebrew安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cask install docker</span><br></pre></td></tr></table></figure>
+<p>我执行该命令时运行较慢，应该是我没有更换源的原因。所以我选择了手动下载安装。</p>
+<p>方法二： 手动下载安装。</p>
+<p>在docker官网docker.com可以手动下载适合自己操作系统的安装包。根据操作步骤进行安装。</p>
+<p>安装之后可以试运行官网的tutorials。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 80:80 docker/getting-started</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/12/20190222jvm历史与版本/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -727,7 +874,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -786,7 +933,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
